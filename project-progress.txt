@@ -1,0 +1,13 @@
+Project: Real-time Delivery Tracking System
+
+Day 1:
+- Setup Node.js
+- Fixed PATH issues
+- Built WebSocket server
+- Built agent simulator
+- Built frontend
+- Debugged socket connection
+- Status: Working / near working
+
+Next:
+- Day 2: multi-agent tracking
