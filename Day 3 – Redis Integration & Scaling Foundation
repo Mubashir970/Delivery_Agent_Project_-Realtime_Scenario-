@@ -1,0 +1,119 @@
+# 🚀 Day 3 – Redis Integration & Scaling Foundation
+
+## 📌 Overview
+
+On Day 3, I enhanced the real-time delivery tracking system by introducing Redis as a central data store. The goal was to move from a simple in-memory system to a more scalable and production-ready architecture.
+
+---
+
+## 🧠 What is Redis?
+
+Redis (Remote Dictionary Server) is an in-memory data store used for caching, real-time data processing, and fast data access.
+
+It is widely used in real-world systems for:
+
+* Caching frequently accessed data
+* Storing real-time updates
+* Pub/Sub messaging systems
+
+---
+
+## ❓ Why Redis is Needed in This Project
+
+Before Redis:
+
+* Data was stored in server memory
+* If the server restarted, all data was lost
+* Not scalable for multiple servers
+
+After Redis:
+
+* Data is stored outside the application
+* Multiple servers can share the same data
+* Improves scalability and reliability
+
+---
+
+## 🛠️ What I Implemented
+
+* Installed and ran Redis using Docker
+* Integrated Redis into the Node.js backend
+* Stored agent locations in Redis instead of server memory
+* Retrieved last known location from Redis when a user connects
+* Maintained real-time updates using Socket.IO with Redis-backed storage
+
+---
+
+## ⚙️ How It Works Now
+
+* Agent sends location → server
+* Server stores location in Redis
+* Users request tracking → server fetches from Redis
+* Server sends updates only to relevant users
+
+Redis acts as a **central source of truth**
+
+---
+
+## 🧱 Challenges I Faced
+
+### 1. Docker Not Installed
+
+* Initially couldn’t run Redis container
+* Installed Docker and verified setup
+
+---
+
+### 2. Connecting Redis to Node.js
+
+* Needed to understand async connection handling
+* Ensured Redis client connects before processing data
+
+---
+
+### 3. Testing Persistence
+
+* Wanted to confirm Redis is actually storing data
+
+✅ Fix:
+
+* Restarted server and verified that last location is still available
+* Confirmed data is no longer dependent on server memory
+
+---
+
+## 🧠 Key Learnings
+
+* In-memory storage is not suitable for scalable systems
+* Redis enables fast and centralized data access
+* Real-time systems require external state management
+* Docker simplifies running external services like Redis
+* Designing for scalability requires thinking beyond code
+
+---
+
+## 🎯 Outcome
+
+Successfully upgraded the system to:
+
+* Use Redis for storing real-time data
+* Support persistence across server restarts
+* Prepare for horizontal scaling
+
+This marks a transition from a simple application to a **scalable system design**
+
+---
+
+## 🚀 What’s Next (Day 4)
+
+* Dockerize the Node.js application
+* Run full system using containers
+* Begin DevOps pipeline setup
+
+---
+
+## 💡 Reflection
+
+Day 3 helped me understand the importance of separating application logic from data storage. Integrating Redis made the system more reliable and closer to how real-world applications are built and scaled.
+
+---
