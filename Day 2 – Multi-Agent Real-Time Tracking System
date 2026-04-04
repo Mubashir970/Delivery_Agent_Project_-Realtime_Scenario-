@@ -1,0 +1,97 @@
+# 🚀 Day 2 – Multi-Agent Real-Time Tracking System
+
+## 📌 Overview
+
+On Day 2, I upgraded the system from a basic real-time tracking setup to a more realistic architecture that supports multiple delivery agents. The focus was on implementing targeted data flow instead of broadcasting updates to all users.
+
+---
+
+## 🛠️ What I Built
+
+* Extended the backend to support **multiple agents**
+* Introduced **agent-specific tracking using Socket.IO rooms**
+* Enabled users to track a **specific agent using agent ID**
+* Modified frontend to dynamically select and track agents
+* Simulated multiple agents running in parallel with different locations
+
+---
+
+## ⚙️ How It Works
+
+* Each agent sends location updates with a unique `agentId`
+* Server stores latest location for each agent
+* Users join a specific “room” based on agentId
+* Server sends updates **only to users tracking that agent**
+
+This avoids unnecessary data broadcasting and mimics real-world systems.
+
+---
+
+## 🧱 Challenges I Faced
+
+### 1. All Agents Showing Same Location
+
+* Initially, all agents followed the same path
+* Root cause: same starting coordinates
+
+✅ Fix:
+
+* Assigned different starting locations for each agent
+* Introduced random movement to simulate real behavior
+
+---
+
+### 2. Confusion Between IP vs Location
+
+* Initially thought agents needed different IPs
+* Learned that tracking is based on **location data (lat/lng)**, not IP
+
+---
+
+### 3. Understanding Targeted Communication
+
+* Previously used broadcast (`io.emit`)
+* Needed to implement **room-based communication**
+
+✅ Fix:
+
+* Used `socket.join(agentId)`
+* Used `io.to(agentId).emit()` for targeted updates
+
+---
+
+## 🧠 Key Learnings
+
+* Real-time systems should avoid unnecessary broadcasting
+* Socket.IO rooms help build scalable communication
+* Each agent should maintain its own state and identity
+* Simulation needs realistic variation (not identical data)
+* Backend design matters more than frontend in real-time systems
+
+---
+
+## 🎯 Outcome
+
+Successfully built a system where:
+
+* Multiple agents send independent location updates
+* Users can track a specific agent
+* Data is delivered only to relevant users
+
+This is a major step towards building a **production-like tracking system**
+
+---
+
+## 🚀 What’s Next (Day 3)
+
+* Introduce Redis for real-time data storage
+* Handle scalability and performance
+* Design system for thousands of users
+
+---
+
+## 💡 Reflection
+
+Day 2 felt more like real backend engineering. Instead of just making things work, I focused on how to structure the system properly. Understanding rooms and targeted communication gave me a clearer picture of how real-world tracking systems operate.
+
+---
