@@ -1,0 +1,229 @@
+Overview
+
+On Day 5, I upgraded the project from manually managing containers to a fully orchestrated multi-container architecture using Docker Compose.
+
+Previously:
+
+Node.js container was started manually
+Redis container was started separately
+Networking and configuration required manual setup
+
+With Docker Compose, the entire infrastructure can now be started using a single command:
+
+docker-compose up
+
+This marks an important transition toward production-style DevOps workflows.
+
+🎯 Day 5 Objectives
+
+The main goals of Day 5 were:
+
+Automate multi-container startup
+Simplify infrastructure management
+Enable service-to-service communication
+Use environment variables for configuration
+Create a cleaner and scalable development workflow
+🧠 What is Docker Compose?
+
+Docker Compose is a tool used to define and manage multi-container Docker applications.
+
+Instead of manually running multiple containers, Compose allows all services to be managed through a single YAML configuration file.
+
+Benefits include:
+
+Easier orchestration
+Automatic networking
+Simplified deployment
+Consistent environments
+🏗️ Final Architecture
+Browser
+   ↓
+Node.js App Container
+   ↓
+Redis Container
+🛠️ What I Implemented
+1️⃣ Created docker-compose.yml
+
+Defined multiple services:
+
+Node.js application
+Redis database
+
+Configuration included:
+
+Container names
+Port mappings
+Environment variables
+Service dependencies
+
+Example:
+
+version: '3'
+
+services:
+
+  app:
+    build: .
+    container_name: realtime-app
+
+    ports:
+      - "3000:3000"
+
+    depends_on:
+      - redis
+
+    environment:
+      REDIS_URL: redis://redis:6379
+
+  redis:
+    image: redis
+    container_name: redis-server
+2️⃣ Added Environment Variable Configuration
+
+Updated Redis connection in server.js.
+
+Before:
+
+url: "redis://localhost:6379"
+
+After:
+
+url: process.env.REDIS_URL
+
+This made the application portable across:
+
+Local environments
+Docker environments
+Production systems
+3️⃣ Automatic Service Networking
+
+Docker Compose automatically created:
+
+Shared network
+Internal DNS resolution
+
+This allowed the app container to connect to Redis using:
+
+redis://redis:6379
+
+instead of localhost.
+
+4️⃣ Container Orchestration
+
+Successfully orchestrated:
+
+Redis container
+Node.js application container
+
+using a single command:
+
+docker-compose up --build
+🧱 Challenges Faced
+🔹 Port Conflict Issues
+
+Encountered:
+
+Bind for 0.0.0.0:6379 failed: port is already allocated
+Cause
+
+Old Redis containers were still running.
+
+Solution
+Removed old containers
+Cleaned Docker environment
+Avoided unnecessary Redis port exposure
+🔹 Container Name Conflicts
+
+Encountered:
+
+container name already in use
+Solution
+
+Removed existing containers before rebuilding.
+
+🔹 Event Name Mismatch
+
+Frontend initially used old socket event names.
+
+Fixed By
+
+Updating all layers to use:
+
+agent:update
+agent:subscribe
+🔹 Agent ID Mismatch
+
+Frontend subscribed to:
+
+agent1
+
+while simulator emitted:
+
+agent_1
+Solution
+
+Ensured consistent naming across:
+
+frontend
+simulator
+backend
+⚙️ System Workflow
+Simulator Agents
+        ↓
+Socket.IO Server
+        ↓
+Redis Storage
+        ↓
+Frontend Client
+🚀 Technologies Used
+Node.js
+Express.js
+Socket.IO
+Redis
+Docker
+Docker Compose
+📂 Project Structure
+realtime-tracking-V2/
+│
+├── server.js
+├── simulator.js
+├── index.html
+├── Dockerfile
+├── docker-compose.yml
+├── package.json
+└── .dockerignore
+
+🌟 Conclusion
+
+Day 5 was a major DevOps milestone in this project journey. The application evolved from a manually managed local setup into a containerized, orchestrated real-time system.
+
+This phase introduced real-world concepts such as:
+
+container orchestration
+service networking
+infrastructure automation
+environment configuration
+
+The project is now much closer to a production-ready architecture.
+
+
+
+📌 Overview
+
+On Day 6, the project evolves from a text-based tracking dashboard into a real-world visual tracking system by integrating live maps.
+
+Until now:
+
+Agents were sending live coordinates
+Backend processed real-time updates
+Frontend displayed latitude and longitude as tex
+
+🎯 Day 6 Goals
+
+The objectives of Day 6 are:
+
+Display delivery agents on a live map
+Update agent positions in real time
+Render multiple moving agents simultaneously
+Improve frontend visualization
+Create a production-style tracking dashboard
